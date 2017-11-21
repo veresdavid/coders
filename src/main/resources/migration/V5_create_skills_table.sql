@@ -1,6 +1,6 @@
 -- SKILLS TABLE
 
-CREATE TYPE skill_types AS ENUM ('offensive', 'defensive', 'adaptive', 'basic');
+CREATE TYPE skill_types AS ENUM ('OFFENSIVE', 'DEFENSIVE', 'ADAPTIVE', 'BASIC');
 
 CREATE TABLE public.skills
 (
