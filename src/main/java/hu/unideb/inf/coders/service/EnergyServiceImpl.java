@@ -1,12 +1,8 @@
 package hu.unideb.inf.coders.service;
 
 import hu.unideb.inf.coders.dto.UserDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EnergyServiceImpl implements EnergyService {
-
-	@Autowired
-	private UserService userService;
 
 	@Override
 	public void increaseEnergy(UserDTO userDTO, int energy) {
@@ -21,8 +17,6 @@ public class EnergyServiceImpl implements EnergyService {
 
 		userDTO.setEnergy(userEnergy);
 
-		userService.save(userDTO);
-
 	}
 
 	@Override
@@ -33,8 +27,6 @@ public class EnergyServiceImpl implements EnergyService {
 		userEnergy -= energy;
 
 		userDTO.setEnergy(userEnergy);
-
-		userService.save(userDTO);
 
 	}
 

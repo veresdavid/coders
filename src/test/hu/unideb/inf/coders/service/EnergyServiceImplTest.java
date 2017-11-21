@@ -1,23 +1,19 @@
 package hu.unideb.inf.coders.service;
 
 import hu.unideb.inf.coders.dto.UserDTO;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
 public class EnergyServiceImplTest {
 
-	@InjectMocks
 	private EnergyServiceImpl energyService;
 
-	@Mock
-	private UserService userService;
+	@Before
+	public void setUp() {
+		energyService = new EnergyServiceImpl();
+	}
 
 	@Test
 	public void increaseEnergyShouldCorrectlyIncreaseUserDTOsEnergy() {
@@ -32,7 +28,6 @@ public class EnergyServiceImplTest {
 
 		// then
 		assertEquals(70, userDTO.getEnergy());
-		verify(userService).save(userDTO);
 
 	}
 
@@ -49,7 +44,6 @@ public class EnergyServiceImplTest {
 
 		// then
 		assertEquals(100, userDTO.getEnergy());
-		verify(userService).save(userDTO);
 
 	}
 
@@ -66,7 +60,6 @@ public class EnergyServiceImplTest {
 
 		// then
 		assertEquals(30, userDTO.getEnergy());
-		verify(userService).save(userDTO);
 
 	}
 
