@@ -8,7 +8,7 @@ CREATE TABLE public.jobs
 	xp integer,
 	time integer,
 	energy integer,
-	skills character varying COLLATE pg_catalog."default",
+	prerequisites character varying COLLATE pg_catalog."default",
 	CONSTRAINT job_pkey PRIMARY KEY (id)
 )
 WITH (
