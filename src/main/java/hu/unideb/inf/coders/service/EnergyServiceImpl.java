@@ -1,7 +1,9 @@
 package hu.unideb.inf.coders.service;
 
 import hu.unideb.inf.coders.dto.UserDTO;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EnergyServiceImpl implements EnergyService {
 
 	@Override
