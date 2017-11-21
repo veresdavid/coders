@@ -20,6 +20,9 @@ public class XPServiceImpl implements XPService {
 			userLevel++;
 			userXp -= xpLimit;
 			userDTO.setEnergy(100);
+			int userSkillPoints = userDTO.getSkillPoints();
+			userSkillPoints++;
+			userDTO.setSkillPoints(userSkillPoints);
 		}
 
 		userDTO.setLevel(userLevel);

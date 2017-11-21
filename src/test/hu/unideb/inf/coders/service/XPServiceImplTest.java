@@ -24,6 +24,7 @@ public class XPServiceImplTest {
 		userDTO.setLevel(1);
 		userDTO.setXp(0);
 		userDTO.setEnergy(50);
+		userDTO.setSkillPoints(0);
 		LevelDTO levelDTO = new LevelDTO(1, 10);
 		int xp = 5;
 
@@ -34,6 +35,7 @@ public class XPServiceImplTest {
 		assertEquals(1, userDTO.getLevel());
 		assertEquals(5, userDTO.getXp());
 		assertEquals(50, userDTO.getEnergy());
+		assertEquals(0, userDTO.getSkillPoints());
 
 	}
 
@@ -45,6 +47,7 @@ public class XPServiceImplTest {
 		userDTO.setLevel(1);
 		userDTO.setXp(0);
 		userDTO.setEnergy(50);
+		userDTO.setSkillPoints(0);
 		LevelDTO levelDTO = new LevelDTO(1, 10);
 		int xp = 10;
 
@@ -55,6 +58,7 @@ public class XPServiceImplTest {
 		assertEquals(2, userDTO.getLevel());
 		assertEquals(0, userDTO.getXp());
 		assertEquals(100, userDTO.getEnergy());
+		assertEquals(1, userDTO.getSkillPoints());
 
 	}
 
