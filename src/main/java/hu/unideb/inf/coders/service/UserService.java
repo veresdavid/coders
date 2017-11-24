@@ -6,6 +6,8 @@ public interface UserService {
 
 	UserDTO getUserById(Long id);
 
+	UserDTO getUserByName(String username);
+
 	UserDTO save(UserDTO userDTO);
 
 }
