@@ -62,4 +62,21 @@ public class XPServiceImplTest {
 
 	}
 
+	@Test
+	public void gainShouldOnlyIncreaseXpWhenLevelDTOIsNull(){
+
+		// given
+		UserDTO userDTO = new UserDTO();
+		userDTO.setLevel(99);
+		userDTO.setXp(0);
+
+		// when
+		xpService.gain(userDTO, 10000, null);
+
+		// then
+		assertEquals(99, userDTO.getLevel());
+		assertEquals(10000, userDTO.getXp());
+
+	}
+
 }
