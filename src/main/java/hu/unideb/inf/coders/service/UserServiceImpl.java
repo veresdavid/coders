@@ -28,6 +28,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserDTO getUserByName(String username) {
+
+		UserEntity userEntity = userRepository.findByName(username);
+
+		if (userEntity == null) return null;
+
+		return modelMapper.map(userEntity, UserDTO.class);
+
+	}
+
+	@Override
 	public UserDTO save(UserDTO userDTO) {
 
 		UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
