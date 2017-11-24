@@ -13,6 +13,10 @@ public class SkillUtil {
 
 	public Set<Long> extractSkillIds(String skills) {
 
+		if (skills == null || skills.isEmpty()) {
+			return new HashSet<>();
+		}
+
 		String[] skillsStringArray = skills.split(",");
 
 		List<Long> skillIds = new ArrayList<>();
