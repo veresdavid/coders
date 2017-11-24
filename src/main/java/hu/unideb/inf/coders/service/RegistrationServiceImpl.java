@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
@@ -35,7 +37,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 			userDTO.setEmail(registrationForm.getEmail());
 			userDTO.setPassword(bCryptPasswordEncoder.encode(registrationForm.getPassword()));
 
-			// TODO: strings and localdatetime fileds are null, should we set them to some default value?
+			userDTO.setLevel(1);
+			userDTO.setSkills("");
+			userDTO.setEnergy(100);
+			LocalDateTime now = LocalDateTime.now();
+			userDTO.setLastLogin(now);
+			userDTO.setLastEnergyRefresh(now);
 
 			userService.save(userDTO);
 

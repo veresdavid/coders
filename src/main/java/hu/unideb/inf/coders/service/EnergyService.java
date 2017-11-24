@@ -8,4 +8,8 @@ public interface EnergyService {
 
 	void decreaseEnergy(UserDTO userDTO, int energy);
 
+	boolean canRegenerateEnergy(UserDTO userDTO);
+
+	void regenerateEnergy(UserDTO userDTO);
+
 }
