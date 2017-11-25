@@ -6,49 +6,30 @@ import hu.unideb.inf.coders.util.SkillUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class SkillManagerImpl implements SkillManager{
 
     @Autowired
-    private SkillUtil skillUtil;
+    private LearnService learnService;
 
     @Autowired
     private UserService userService;
 
     @Override
-    public boolean canLearnSkill(UserDTO userDTO, SkillDTO skillDTO) {
-        if(!hasSkillPoint(userDTO)) return false;
-
-        if(!satisfiesPrerequisites(userDTO, skillDTO)) return false;
-
-        return true;
-    }
-
-    @Override
     public UserDTO learnSkill(UserDTO userDTO, SkillDTO skillDTO) {
 
-        String skills = userDTO.getSkills();
-        skills = skills + "," + skillDTO.getId();
-        userDTO.setSkills(skills);
+        if(learnService.isLearnable(userDTO, skillDTO)) {
 
-        int skillPoints = userDTO.getSkillPoints();
-        skillPoints--;
-        userDTO.setSkillPoints(skillPoints);
+            userDTO = learnService.learn(userDTO, skillDTO);
 
-        userService.save(userDTO);
+            userService.save(userDTO);
+
+        }
 
         return userDTO;
-    }
-
-    public boolean hasSkillPoint(UserDTO userDTO) {
-
-        return userDTO.getSkillPoints() != 0;
 
     }
 
-    public boolean satisfiesPrerequisites(UserDTO userDTO, SkillDTO skillDTO) {
-
-        return skillUtil.areSkillRequirementsMet(userDTO.getSkills(), skillDTO.getPrerequisites());
-
-    }
 }

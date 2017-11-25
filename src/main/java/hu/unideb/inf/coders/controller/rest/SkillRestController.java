@@ -43,10 +43,6 @@ public class SkillRestController {
 
         UserDTO userDTO = userService.getUserByName(authenticationFacade.getAuthentication().getName());
 
-        if (!skillManager.canLearnSkill(userDTO, skillDTO)) {
-            return null;
-        }
-
         skillManager.learnSkill(userDTO, skillDTO);
 
         return skillDTO;
