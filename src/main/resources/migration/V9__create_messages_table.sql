@@ -8,8 +8,10 @@ CREATE TABLE public.messages
     sender_id bigint,
     receiver_id bigint,
     type message_types,
-    subject character varying COLLATE pg_catalog."default",,
-    message character varying COLLATE pg_catalog."default",,
+    subject character varying COLLATE pg_catalog."default",
+    message character varying COLLATE pg_catalog."default",
+    date timestamp,
+    read boolean
     CONSTRAINT messages_pkey PRIMARY KEY (id)
 )
 WITH (
