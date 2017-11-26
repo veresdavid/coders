@@ -5,6 +5,10 @@ import hu.unideb.inf.coders.dto.UserDTO;
 
 public interface UserAttackService {
 
+    UserAttackDTO findById(Long id);
+
+    UserAttackDTO findByName(String name);
+
     UserAttackDTO getActiveAttack(UserDTO userDTO);
 
     UserAttackDTO save(UserAttackDTO userJobDTO);

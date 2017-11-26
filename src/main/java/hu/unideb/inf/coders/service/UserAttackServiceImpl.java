@@ -16,6 +16,28 @@ public class UserAttackServiceImpl implements UserAttackService {
     private ModelMapper modelMapper;
 
     @Override
+    public UserAttackDTO findById(Long id) {
+
+        UserAttackEntity userAttackEntity = userAttackRepository.findById(id);
+
+        if (userAttackEntity == null) return null;
+
+        return modelMapper.map(userAttackEntity, UserAttackDTO.class);
+
+    }
+
+    @Override
+    public UserAttackDTO findByName(String name) {
+
+        UserAttackEntity userAttackEntity = userAttackRepository.findByName(name);
+
+        if (userAttackEntity == null) return null;
+
+        return modelMapper.map(userAttackEntity, UserAttackDTO.class);
+
+    }
+
+    @Override
     public UserAttackDTO getActiveAttack(UserDTO userDTO) {
 
         UserAttackEntity userAttackEntity = userAttackRepository.getActiveAttack(userDTO.getId());
