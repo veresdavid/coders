@@ -16,7 +16,7 @@ public class UserAttackServiceImpl implements UserAttackService {
     private ModelMapper modelMapper;
 
     @Override
-    public UserAttackDTO getActiveJob(UserDTO userDTO) {
+    public UserAttackDTO getActiveAttack(UserDTO userDTO) {
 
         UserAttackEntity userAttackEntity = userAttackRepository.getActiveAttack(userDTO.getId());
 

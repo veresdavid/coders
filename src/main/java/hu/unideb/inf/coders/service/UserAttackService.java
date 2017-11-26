@@ -5,7 +5,7 @@ import hu.unideb.inf.coders.dto.UserDTO;
 
 public interface UserAttackService {
 
-    UserAttackDTO getActiveJob(UserDTO userDTO);
+    UserAttackDTO getActiveAttack(UserDTO userDTO);
 
     UserAttackDTO save(UserAttackDTO userJobDTO);
 
