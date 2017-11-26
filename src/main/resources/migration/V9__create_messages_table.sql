@@ -6,7 +6,7 @@ CREATE TABLE public.messages
 (
     id bigint NOT NULL DEFAULT nextval('hibernate_sequence'),
     sender_id bigint,
-    reciever_id bigint,
+    receiver_id bigint,
     type message_types,
     subject character varying COLLATE pg_catalog."default",,
     message character varying COLLATE pg_catalog."default",,
