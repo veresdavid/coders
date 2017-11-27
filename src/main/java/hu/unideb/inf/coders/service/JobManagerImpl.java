@@ -37,6 +37,9 @@ public class JobManagerImpl implements JobManager {
 	@Autowired
 	private XPService xpService;
 
+	@Autowired
+	private UserAttackManager userAttackManager;
+
 	@Override
 	public boolean canStartJob(UserDTO userDTO, JobDTO jobDTO) {
 
@@ -123,8 +126,9 @@ public class JobManagerImpl implements JobManager {
 	}
 
 	public boolean isThereAlreadyActiveAttack(UserDTO userDTO) {
-		// TODO: implement it later when attack services are ready
-		return false;
+
+		return userAttackManager.getActiveAttack(userDTO) != null;
+
 	}
 
 	public boolean isEnergyEnough(UserDTO userDTO, JobDTO jobDTO) {
