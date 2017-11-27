@@ -27,17 +27,6 @@ public class UserAttackServiceImpl implements UserAttackService {
     }
 
     @Override
-    public UserAttackDTO findByName(String name) {
-
-        UserAttackEntity userAttackEntity = userAttackRepository.findByName(name);
-
-        if (userAttackEntity == null) return null;
-
-        return modelMapper.map(userAttackEntity, UserAttackDTO.class);
-
-    }
-
-    @Override
     public UserAttackDTO getActiveAttack(UserDTO userDTO) {
 
         UserAttackEntity userAttackEntity = userAttackRepository.getActiveAttack(userDTO.getId());
