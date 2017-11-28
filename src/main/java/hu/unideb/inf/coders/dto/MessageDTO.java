@@ -1,6 +1,5 @@
 package hu.unideb.inf.coders.dto;
 
-import hu.unideb.inf.coders.enums.MessageTypes;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,7 @@ public class MessageDTO {
 
     private Long receiverId;
 
-    private MessageTypes type;
+    private String type;
 
     private String subject;
 

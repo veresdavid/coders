@@ -1,6 +1,5 @@
 package hu.unideb.inf.coders.dto;
 
-import hu.unideb.inf.coders.enums.SkillTypes;
 import lombok.*;
 
 @NoArgsConstructor
@@ -15,7 +14,7 @@ public class SkillDTO {
 
     private String name;
 
-    private SkillTypes type;
+    private String type;
 
     private String prerequisites;
 
