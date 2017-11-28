@@ -2,6 +2,8 @@ package hu.unideb.inf.coders.controller.rest;
 
 import hu.unideb.inf.coders.dto.UserAttackDTO;
 import hu.unideb.inf.coders.dto.UserDTO;
+import hu.unideb.inf.coders.response.ActiveUserAttackResponse;
+import hu.unideb.inf.coders.response.FinishedUserAttackResponse;
 import hu.unideb.inf.coders.service.AuthenticationFacade;
 import hu.unideb.inf.coders.service.UserAttackManager;
 import hu.unideb.inf.coders.service.UserAttackService;
@@ -29,7 +31,7 @@ public class AttackRestController {
     private AuthenticationFacade authenticationFacade;
 
     @RequestMapping(path = "/start/{defenderId}", method = RequestMethod.POST)
-    public UserDTO startAttack(@PathVariable(name = "defenderId") Long defenderId) {
+    public ActiveUserAttackResponse startAttack(@PathVariable(name = "defenderId") Long defenderId) {
 
         if (!authenticationFacade.isAuthenticated()) {
             return null;
@@ -42,19 +44,17 @@ public class AttackRestController {
             return null;
         }
 
-        userAttackManager.startAttack(attackerUserDTO, defenderUserDTO);
+        UserAttackDTO userAttackDTO = userAttackManager.startAttack(attackerUserDTO, defenderUserDTO);
 
-        return defenderUserDTO;
+        return new ActiveUserAttackResponse(defenderUserDTO.getName(), userAttackDTO.getFinish());
 
     }
 
     @RequestMapping(path = "/finish", method = RequestMethod.POST)
-    public void finishJob() {
-
-        // TODO: return some kind of response object
+    public FinishedUserAttackResponse finishAttack() {
 
         if (!authenticationFacade.isAuthenticated()) {
-            return;
+            return null;
         }
 
         UserDTO attackerUserDTO = userService.getUserByName(authenticationFacade.getAuthentication().getName());
@@ -62,21 +62,25 @@ public class AttackRestController {
         UserAttackDTO userAttackDTO = userAttackManager.getActiveAttack(attackerUserDTO);
 
         if (userAttackDTO == null) {
-            return;
+            return null;
         }
 
         if (!userAttackManager.canFinishAttack(userAttackDTO)) {
-            return;
+            return null;
         }
 
-        userAttackManager.finishAttack(userAttackDTO);
+        UserDTO winnerUserDTO = userAttackManager.finishAttack(userAttackDTO);
 
-        return;
+        UserDTO defenderUserDTO = userService.getUserById(userAttackDTO.getDefenderId());
+
+        boolean success = attackerUserDTO.getId() == winnerUserDTO.getId();
+
+        return new FinishedUserAttackResponse(defenderUserDTO.getName(), success?100:0, success?50:0, success);
 
     }
 
     @RequestMapping(path = "/active", method = RequestMethod.GET)
-    public UserDTO getActiveJob() {
+    public ActiveUserAttackResponse getActiveAttack() {
 
         if (!authenticationFacade.isAuthenticated()) {
             return null;
@@ -92,7 +96,7 @@ public class AttackRestController {
 
         UserDTO defenderUserDTO = userService.getUserById(userAttackDTO.getDefenderId());
 
-        return defenderUserDTO;
+        return new ActiveUserAttackResponse(defenderUserDTO.getName(), userAttackDTO.getFinish());
 
     }
 
