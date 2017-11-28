@@ -1,6 +1,5 @@
 package hu.unideb.inf.coders.entity;
 
-import hu.unideb.inf.coders.enums.SkillTypes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +20,7 @@ public class SkillEntity {
 
     private String name;
 
-    private SkillTypes type;
+    private String type;
 
     private String prerequisites;
 

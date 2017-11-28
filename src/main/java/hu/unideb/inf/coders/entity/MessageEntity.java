@@ -1,6 +1,5 @@
 package hu.unideb.inf.coders.entity;
 
-import hu.unideb.inf.coders.enums.MessageTypes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,7 +25,7 @@ public class MessageEntity {
     @Column(name = "receiver_id")
     private Long receiverId;
 
-    private MessageTypes type;
+    private String type;
 
     private String subject;
 
