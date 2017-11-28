@@ -31,8 +31,9 @@ public class LearnServiceImpl implements LearnService {
     public UserDTO learn(UserDTO userDTO, SkillDTO skillDTO) {
 
         String skills = userDTO.getSkills();
-        skills = skills + "," + skillDTO.getId();
-        userDTO.setSkills(skills);
+        Set<Long> skillsSet = skillUtil.extractSkillIds(skills);
+        skillsSet.add(skillDTO.getId());
+        userDTO.setSkills(skillUtil.createSkillsStringFromSet(skillsSet));
 
         int skillPoints = userDTO.getSkillPoints();
         skillPoints--;
