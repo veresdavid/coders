@@ -11,7 +11,7 @@ CREATE TABLE public.messages
     subject character varying COLLATE pg_catalog."default",
     message character varying COLLATE pg_catalog."default",
     date timestamp,
-    read boolean
+    read boolean,
     CONSTRAINT messages_pkey PRIMARY KEY (id)
 )
 WITH (

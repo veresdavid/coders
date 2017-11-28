@@ -6,11 +6,13 @@ import hu.unideb.inf.coders.dto.UserDTO;
 import hu.unideb.inf.coders.enums.SkillTypes;
 import hu.unideb.inf.coders.util.SkillUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Set;
 
+@Service
 public class UserAttackManagerImpl implements UserAttackManager {
 
     private final int ATTACK_ENERGY_REQUIREMENT = 10;
@@ -102,9 +104,9 @@ public class UserAttackManagerImpl implements UserAttackManager {
         UserDTO winnerUserDTO = getAttackWinner(attackerUserDTO, defenderUserDTO);
         LevelDTO levelDTO = levelService.findByLevel(winnerUserDTO.getLevel());
 
-        xpService.gain(winnerUserDTO, calculateAttackWinnerXpGain(winnerUserDTO.getLevel()), levelDTO);
+        xpService.gain(winnerUserDTO, calculateAttackWinnerXpGain(), levelDTO);
 
-        moneyService.increaseMoney(winnerUserDTO, calculateAttackWinnerMoneyGain(winnerUserDTO.getLevel()));
+        moneyService.increaseMoney(winnerUserDTO, calculateAttackWinnerMoneyGain());
 
         userAttackDTO.setGainedRewards(true);
 
@@ -197,17 +199,15 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
     }
 
-    public int calculateAttackWinnerXpGain(int level) {
+    public int calculateAttackWinnerXpGain() {
 
-        //TODO need to discuss it
-        return 100 * level;
+        return 100;
 
     }
 
-    public int calculateAttackWinnerMoneyGain(int level) {
+    public int calculateAttackWinnerMoneyGain() {
 
-        //TODO need to discuss it
-        return 50 * level;
+        return 50;
 
     }
 
