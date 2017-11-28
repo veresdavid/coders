@@ -47,6 +47,8 @@ public class UserAttackManagerImpl implements UserAttackManager {
     @Override
     public boolean canStartAttack(UserDTO attackerUserDTO, UserDTO defenderUserDTO) {
 
+        if(isAttackingItself(attackerUserDTO, defenderUserDTO)) return false;
+
         if (isThereAlreadyActiveJob(attackerUserDTO)) return false;
 
         if (isThereAlreadyActiveAttack(attackerUserDTO)) return false;
@@ -103,12 +105,19 @@ public class UserAttackManagerImpl implements UserAttackManager {
         UserDTO winnerUserDTO = getAttackWinner(attackerUserDTO, defenderUserDTO);
         LevelDTO levelDTO = levelService.findByLevel(winnerUserDTO.getLevel());
 
+        if(winnerUserDTO.getId() == attackerUserDTO.getId()) {
+            winnerUserDTO.setSuccessfulAttacks(attackerUserDTO.getSuccessfulAttacks() + 1);
+        } else {
+            attackerUserDTO.setUnsuccessfulAttacks(attackerUserDTO.getUnsuccessfulAttacks() + 1);
+        }
+
         xpService.gain(winnerUserDTO, calculateAttackWinnerXpGain(), levelDTO);
 
         moneyService.increaseMoney(winnerUserDTO, calculateAttackWinnerMoneyGain());
 
         userAttackDTO.setGainedRewards(true);
 
+        userService.save(attackerUserDTO);
         userService.save(winnerUserDTO);
         userAttackService.save(userAttackDTO);
 
@@ -120,6 +129,12 @@ public class UserAttackManagerImpl implements UserAttackManager {
     public UserAttackDTO getActiveAttack(UserDTO attackerUserDTO) {
 
         return userAttackService.getActiveAttack(attackerUserDTO);
+
+    }
+
+    public boolean isAttackingItself(UserDTO attackerUserDTO, UserDTO defenderUserDTO) {
+
+        return attackerUserDTO.getId() == defenderUserDTO.getId();
 
     }
 
@@ -143,8 +158,7 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
     public boolean areSkillRequirementsMet(UserDTO attackerUserDTO) {
 
-        //TODO discuss requirements
-        return skillUtil.areSkillRequirementsMet(attackerUserDTO.getSkills(), "0");
+        return skillUtil.areSkillRequirementsMet(attackerUserDTO.getSkills(), "2,4,6,7,10");
 
     }
 
@@ -202,13 +216,13 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
     public int calculateAttackWinnerXpGain() {
 
-        return 100;
+        return XP_GAIN;
 
     }
 
     public int calculateAttackWinnerMoneyGain() {
 
-        return 50;
+        return MONEY_GAIN;
 
     }
 
