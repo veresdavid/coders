@@ -7,6 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class JobServiceImpl implements JobService {
 
@@ -34,6 +37,21 @@ public class JobServiceImpl implements JobService {
 		if (jobEntity == null) return null;
 
 		return modelMapper.map(jobEntity, JobDTO.class);
+	}
+
+	@Override
+	public List<JobDTO> findJobs() {
+
+		List<JobEntity> jobEntities = jobRepository.findAll();
+
+		List<JobDTO> jobDTOS = new ArrayList<>();
+
+		for(JobEntity jobEntity : jobEntities){
+			jobDTOS.add(modelMapper.map(jobEntity, JobDTO.class));
+		}
+
+		return jobDTOS;
+
 	}
 
 }

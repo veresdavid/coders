@@ -7,6 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SkillServiceImpl implements SkillService {
 
@@ -35,6 +38,21 @@ public class SkillServiceImpl implements SkillService {
         if (skillEntity == null) return null;
 
         return modelMapper.map(skillEntity, SkillDTO.class);
+
+    }
+
+    @Override
+    public List<SkillDTO> findAll() {
+
+        List<SkillEntity> skillEntities = skillRepository.findAll();
+
+        List<SkillDTO> skillDTOS = new ArrayList<>();
+
+        for(SkillEntity skillEntity : skillEntities){
+            skillDTOS.add(modelMapper.map(skillEntity, SkillDTO.class));
+        }
+
+        return skillDTOS;
 
     }
 

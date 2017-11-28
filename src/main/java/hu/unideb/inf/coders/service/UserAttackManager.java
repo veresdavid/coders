@@ -11,7 +11,7 @@ public interface UserAttackManager {
 
     boolean canFinishAttack(UserAttackDTO userAttackDTO);
 
-    void finishAttack(UserAttackDTO userAttackDTO);
+    UserDTO finishAttack(UserAttackDTO userAttackDTO);
 
     UserAttackDTO getActiveAttack(UserDTO attackerUserDTO);
 

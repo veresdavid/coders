@@ -18,17 +18,26 @@ public class SkillManagerImpl implements SkillManager{
     private UserService userService;
 
     @Override
-    public UserDTO learnSkill(UserDTO userDTO, SkillDTO skillDTO) {
+    public boolean learnSkill(UserDTO userDTO, SkillDTO skillDTO) {
 
-        if(learnService.isLearnable(userDTO, skillDTO)) {
+        if(canLearnSkill(userDTO, skillDTO)) {
 
             userDTO = learnService.learn(userDTO, skillDTO);
 
             userService.save(userDTO);
 
+            return true;
+
         }
 
-        return userDTO;
+        return false;
+
+    }
+
+    @Override
+    public boolean canLearnSkill(UserDTO userDTO, SkillDTO skillDTO) {
+
+        return learnService.isLearnable(userDTO, skillDTO);
 
     }
 

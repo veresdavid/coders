@@ -3,7 +3,6 @@ package hu.unideb.inf.coders.service;
 import hu.unideb.inf.coders.dto.LevelDTO;
 import hu.unideb.inf.coders.dto.UserAttackDTO;
 import hu.unideb.inf.coders.dto.UserDTO;
-import hu.unideb.inf.coders.enums.SkillTypes;
 import hu.unideb.inf.coders.util.SkillUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,7 +95,7 @@ public class UserAttackManagerImpl implements UserAttackManager {
     }
 
     @Override
-    public void finishAttack(UserAttackDTO userAttackDTO) {
+    public UserDTO finishAttack(UserAttackDTO userAttackDTO) {
 
         UserDTO attackerUserDTO = userService.getUserById(userAttackDTO.getAttackerId());
         UserDTO defenderUserDTO = userService.getUserById(userAttackDTO.getDefenderId());
@@ -112,6 +111,8 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
         userService.save(winnerUserDTO);
         userAttackService.save(userAttackDTO);
+
+        return winnerUserDTO;
 
     }
 
@@ -163,9 +164,9 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
         for(Long attackerSkillId : attackerSkillIds) {
 
-            SkillTypes skillType = skillService.findById(attackerSkillId).getType();
+            String skillType = skillService.findById(attackerSkillId).getType();
 
-            if (skillType == SkillTypes.OFFENSIVE || skillType == SkillTypes.ADAPTIVE) {
+            if (skillType.equals("OFFENSIVE") || skillType.equals("ADAPTIVE")) {
                 attackSkillCounter++;
             }
 
@@ -179,9 +180,9 @@ public class UserAttackManagerImpl implements UserAttackManager {
 
         for(Long defenderSkillId : defenderSkillIds) {
 
-            SkillTypes skillType = skillService.findById(defenderSkillId).getType();
+            String skillType = skillService.findById(defenderSkillId).getType();
 
-            if (skillType == SkillTypes.DEFENSIVE || skillType == SkillTypes.ADAPTIVE) {
+            if (skillType.equals("DEFENSIVE") || skillType.equals("ADAPTIVE")) {
                 defendSkillCounter++;
             }
 

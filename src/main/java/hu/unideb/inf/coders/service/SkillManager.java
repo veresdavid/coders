@@ -5,6 +5,8 @@ import hu.unideb.inf.coders.dto.UserDTO;
 
 public interface SkillManager {
 
-    UserDTO learnSkill(UserDTO userDTO, SkillDTO skillDTO);
+    boolean learnSkill(UserDTO userDTO, SkillDTO skillDTO);
+
+    boolean canLearnSkill(UserDTO userDTO, SkillDTO skillDTO);
 
 }
