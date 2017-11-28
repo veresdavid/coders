@@ -161,7 +161,7 @@ public class JobRestController {
 
 		String subject = "Job has finished";
 		String message = "The job '" + jobDTO.getName() + "' has finished!\n" +
-				"You have gained " + jobDTO.getXp() + " XP and " + jobDTO.getPayment() + ".";
+				"You have gained " + jobDTO.getXp() + " XP and " + jobDTO.getPayment() + " money.";
 		MessageDTO messageDTO = new MessageDTO(null, null, userDTO.getId(), "SYSTEM", subject, message, userJobDTO.getFinish(), false);
 
 		messageManager.sendMessage(messageDTO);
