@@ -77,7 +77,7 @@ public class SkillRestController {
         List<GetSkillsResponse> getSkillsResponses = new ArrayList<>();
 
         for(SkillDTO skillDTO : skillDTOS){
-            getSkillsResponses.add(new GetSkillsResponse(skillDTO.getId(), skillDTO.getName(), skillManager.canLearnSkill(userDTO, skillDTO)));
+            getSkillsResponses.add(new GetSkillsResponse(skillDTO.getId(), skillDTO.getName(), skillManager.canLearnSkill(userDTO, skillDTO), skillUtil.extractSkillIds(userDTO.getSkills()).contains(skillDTO.getId())));
         }
 
         return getSkillsResponses;
