@@ -40,6 +40,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			userDTO.setLevel(1);
 			userDTO.setSkills("");
 			userDTO.setEnergy(100);
+			userDTO.setSkillPoints(1);
 			LocalDateTime now = LocalDateTime.now();
 			userDTO.setLastLogin(now);
 			userDTO.setLastEnergyRefresh(now);
