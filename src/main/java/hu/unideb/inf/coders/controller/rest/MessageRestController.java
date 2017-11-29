@@ -4,6 +4,7 @@ import hu.unideb.inf.coders.dto.MessageDTO;
 import hu.unideb.inf.coders.dto.UserDTO;
 import hu.unideb.inf.coders.form.MessageForm;
 import hu.unideb.inf.coders.response.GetMessagesResponse;
+import hu.unideb.inf.coders.response.GetSentMessagesResponse;
 import hu.unideb.inf.coders.response.MessageDetailsResponse;
 import hu.unideb.inf.coders.service.AuthenticationFacade;
 import hu.unideb.inf.coders.service.MessageManager;
@@ -56,7 +57,7 @@ public class MessageRestController {
 	}
 
 	@RequestMapping(path = "/sent", method = RequestMethod.GET)
-	public List<GetMessagesResponse> getSentMessages() {
+	public List<GetSentMessagesResponse> getSentMessages() {
 
 		if (!authenticationFacade.isAuthenticated()) {
 			return null;
@@ -66,14 +67,14 @@ public class MessageRestController {
 
 		List<MessageDTO> messageDTOS = messageService.getSentMessages(userDTO);
 
-		List<GetMessagesResponse> getMessagesResponses = new ArrayList<>();
+		List<GetSentMessagesResponse> getSentMessagesResponses = new ArrayList<>();
 
 		for (MessageDTO messageDTO : messageDTOS) {
 			UserDTO receiverUserDTO = userService.getUserById(messageDTO.getReceiverId());
-			getMessagesResponses.add(new GetMessagesResponse(messageDTO.getId(), messageDTO.getSenderId(), receiverUserDTO.getName(), messageDTO.getType(), messageDTO.getSubject(), messageDTO.getDate(), messageDTO.isRead()));
+			getSentMessagesResponses.add(new GetSentMessagesResponse(messageDTO.getId(), messageDTO.getReceiverId(), receiverUserDTO.getName(), messageDTO.getType(), messageDTO.getSubject(), messageDTO.getDate()));
 		}
 
-		return getMessagesResponses;
+		return getSentMessagesResponses;
 
 	}
 

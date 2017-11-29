@@ -64,4 +64,4 @@ VALUES (4, 'Tensorflow', 30, 300, 69, 30, '2');
 INSERT INTO jobs (id, name, payment, xp, time, energy, prerequisites)
 VALUES (5, 'Linux kernel development', 0, 250, 5, 20, '3,4');
 INSERT INTO jobs (id, name, payment, xp, time, energy, prerequisites)
-VALUES (6, 'UI development', 15, 250, 30, 15, '9');
+VALUES (6, 'UI development', 15, 250, 30, 15, '10');
