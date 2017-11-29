@@ -2,6 +2,7 @@ package hu.unideb.inf.coders.response;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -18,6 +19,6 @@ public class SkillDetailResponse {
 
 	private String type;
 
-	private Set<Long> prerequisites;
+	private Map<Long, String> prerequisites;
 
 }

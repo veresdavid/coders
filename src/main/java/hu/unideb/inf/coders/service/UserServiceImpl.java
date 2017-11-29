@@ -7,6 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -46,6 +49,21 @@ public class UserServiceImpl implements UserService {
 		UserEntity savedUserEntity = userRepository.save(userEntity);
 
 		return modelMapper.map(savedUserEntity, UserDTO.class);
+
+	}
+
+	@Override
+	public List<UserDTO> getAll() {
+
+		List<UserEntity> userEntities = userRepository.findAll();
+
+		List<UserDTO> userDTOS = new ArrayList<>();
+
+		for (UserEntity userEntity : userEntities) {
+			userDTOS.add(modelMapper.map(userEntity, UserDTO.class));
+		}
+
+		return userDTOS;
 
 	}
 

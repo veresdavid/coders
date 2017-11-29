@@ -22,4 +22,6 @@ public class GetUserResponse {
 
     private int unsuccessfulAttacks;
 
+    private boolean attackable;
+
 }

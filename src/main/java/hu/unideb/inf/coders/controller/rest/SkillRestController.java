@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/skills")
@@ -99,7 +101,13 @@ public class SkillRestController {
             return null;
         }
 
-        return new SkillDetailResponse(skillDTO.getId(), skillDTO.getName(), skillDTO.getType(), skillUtil.extractSkillIds(skillDTO.getPrerequisites()));
+        Map<Long, String> prerequisites = new HashMap<>();
+
+        for(Long key : skillUtil.extractSkillIds(skillDTO.getPrerequisites())){
+            prerequisites.put(key, skillService.findById(key).getName());
+        }
+
+        return new SkillDetailResponse(skillDTO.getId(), skillDTO.getName(), skillDTO.getType(), prerequisites);
 
     }
 

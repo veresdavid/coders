@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/jobs")
@@ -43,6 +45,9 @@ public class JobRestController {
 
 	@Autowired
 	private MessageManager messageManager;
+
+	@Autowired
+	private SkillService skillService;
 
 	@RequestMapping(path = "/start/{jobId}", method = RequestMethod.POST)
 	public ActiveJobResponse startJob(@PathVariable(name = "jobId") Long jobId) {
@@ -155,7 +160,13 @@ public class JobRestController {
 			return null;
 		}
 
-		return new JobDetailsResponse(jobDTO.getId(), jobDTO.getName(), jobDTO.getPayment(), jobDTO.getXp(), jobDTO.getTime(), jobDTO.getEnergy(), skillUtil.extractSkillIds(jobDTO.getPrerequisites()));
+		Map<Long, String> prerequisites = new HashMap<>();
+
+		for(Long key : skillUtil.extractSkillIds(jobDTO.getPrerequisites())){
+			prerequisites.put(key, skillService.findById(key).getName());
+		}
+
+		return new JobDetailsResponse(jobDTO.getId(), jobDTO.getName(), jobDTO.getPayment(), jobDTO.getXp(), jobDTO.getTime(), jobDTO.getEnergy(), prerequisites);
 
 	}
 

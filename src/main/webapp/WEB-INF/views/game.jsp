@@ -22,6 +22,8 @@
 			<div id="jobs"></div>
 			<hr/>
 			<div id="messages"></div>
+			<hr/>
+			<div id="users"></div>
 		</div>
 	</body>
 </html>

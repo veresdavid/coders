@@ -2,6 +2,7 @@ package hu.unideb.inf.coders.response;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -24,6 +25,6 @@ public class JobDetailsResponse {
 
 	private int energy;
 
-	private Set<Long> prerequisites;
+	private Map<Long, String> prerequisites;
 
 }

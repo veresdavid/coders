@@ -11,6 +11,7 @@ function init(){
 		skillsRefresher();
 		jobsRefresher();
 		messageRefresher();
+		usersRefresher();
 	});
 }
 
@@ -29,6 +30,7 @@ function profileRefresher(){
 						$.when(energyRefresher()).done(function(d1){
 							profileRefresher();
 							jobsRefresher();
+							usersRefresher();
 						});
 					}, timeToRefresh);
 		}
@@ -56,12 +58,46 @@ function skillsRefresher(){
 				} else {
 					learnButton = $("<button disabled>learn</button>").attr("onclick", "learnSkill(" + element.id + ")");
 				}
+				var detailsButton = "<button onclick=\"skillDetails(" + element.id + ")\">details</button>";
 				skillsList.append(skill);
 				skillsList.append(learnButton);
+				skillsList.append(detailsButton);
 			});
 			$("#skills").append(skillsList);
 		}
 	});
+}
+
+function skillDetails(skillId){
+
+	$.ajax({
+		type: "GET",
+		url: "skills/" + skillId,
+		success: function(data){
+
+			if(data != ""){
+
+				$("#skills").empty();
+
+				var backButton = "<button onclick=\"skillsRefresher()\">back</button>";
+
+				$("#skills").append(backButton);
+				$("#skills").append("<p>Name: " + data.name + "</p>");
+				$("#skills").append("<p>Type: " + data.type + "</p>");
+				$("#skills").append("<p>Prerequisites:</p>");
+
+				var detailsList = $("<ul></ul>");
+				$.each(data.prerequisites, function(key, value){
+					detailsList.append("<li>" + value + " <button onclick=\"skillDetails(" + key + ")\">details</button></li>");
+				});
+
+				$("#skills").append(detailsList);
+
+			}
+
+		}
+	});
+
 }
 
 function jobsRefresher(){
@@ -79,12 +115,49 @@ function jobsRefresher(){
 				} else {
 					startJobButton = $("<button disabled>work</button>").attr("onclick", "startJob(" + element.id + ")");
 				}
+				var detailsButton = "<button onclick=\"jobDetails(" + element.id + ")\">details</button>";
 				jobsList.append(job);
 				jobsList.append(startJobButton);
+				jobsList.append(detailsButton);
 			});
 			$("#jobs").append(jobsList);
 		}
 	});
+}
+
+function jobDetails(jobId){
+
+	$.ajax({
+		type: "GET",
+		url: "jobs/" + jobId,
+		success: function(data){
+
+			if(data != ""){
+
+				$("#jobs").empty();
+
+				var backButton = "<button onclick=\"jobsRefresher()\">back</button>";
+
+				$("#jobs").append(backButton);
+				$("#jobs").append("<p>Name: " + data.name + "</p>");
+				$("#jobs").append("<p>Payment: " + data.payment + "</p>");
+				$("#jobs").append("<p>Xp: " + data.xp + "</p>");
+				$("#jobs").append("<p>Time: " + data.time + " minutes</p>");
+				$("#jobs").append("<p>Energy: " + data.energy + "</p>");
+				$("#jobs").append("<p>Prerequisites:</p>");
+
+				var detailsList = $("<ul></ul>");
+				$.each(data.prerequisites, function(key, value){
+					detailsList.append("<li>" + value + "</li>");
+				});
+
+				$("#jobs").append(detailsList);
+
+			}
+
+		}
+	});
+
 }
 
 
@@ -115,8 +188,10 @@ function finishActiveJob() {
 		url: "jobs/finish",
 		success: function(data){
 			if(data != ""){
+				profileRefresher();
 				statusRefresher();
 				receivedMessageRefresher();
+				usersRefresher();
 			}
 		}
 	});
@@ -149,8 +224,10 @@ function finishActiveAttack() {
 		url: "attack/finish",
 		success: function(data){
 			if(data != ""){
+				profileRefresher();
 				statusRefresher();
 				receivedMessageRefresher();
+				usersRefresher();
 			}
 		}
 	});
@@ -168,12 +245,6 @@ function updateCounter() {
 		var seconds = parseInt((secondsLeft)%60);
 		var minutes = parseInt((secondsLeft/(60))%60);
 		var hours = parseInt((secondsLeft/(60*60))%24);
-		/*var tmp = secondsLeft;
-		var hours = Math.floor(tmp / 3600);
-		tmp -= hours * 3600;
-		var minutes = Math.floor(tmp / 60);
-		tmp -= minutes * 60;
-		var seconds = Math.round(tmp);*/
 		secondsLeft--;
 		$("#statusCounter").append("<p>Time left: Hours: " + hours + " Minutes: " + minutes + " Seconds: " + seconds + "</p>");
 	}
@@ -196,6 +267,7 @@ function learnSkill(id) {
 				profileRefresher();
 				skillsRefresher();
 				jobsRefresher();
+				usersRefresher();
 			}
 		}
 	});
@@ -210,6 +282,7 @@ function startJob(id) {
 				profileRefresher();
 				statusRefresher();
 				jobsRefresher();
+				usersRefresher();
 			}
 		}
 	});
@@ -240,7 +313,6 @@ function receivedMessageRefresher() {
 		type: "GET",
 		url: "messages/",
 		success: function(data){
-			console.log(data);
 			var receivedMessages = $("<ul></ul>");
 			data.forEach(function(message){
 				var receivedMessage = "<li>Sender: " + message.senderName + " Type: " + message.type + " Subject: " + message.subject + " Date: " + parseDateFromJsonDate(message.date) + " Read: " + message.read + "</li>"
@@ -277,10 +349,9 @@ function sentMessageRefresher() {
 		type: "GET",
 		url: "messages/sent",
 		success: function(data){
-			console.log(data);
 			var sentMessages = $("<ul></ul>");
 			data.forEach(function(message){
-				var sentMessage = "<li>Sender: " + message.receiverName + " Type: " + message.type + " Subject: " + message.subject + " Date: " + parseDateFromJsonDate(message.date) + "</li>"
+				var sentMessage = "<li>Sender: " + message.receiverName + " Type: " + message.type + " Subject: " + message.subject + " Date: " + parseDateFromJsonDate(message.date) + "</li>";
 				var openButton = $("<button>open</button>").attr("onclick", "openMessage(" + message.id +")");
 				sentMessages.append(sentMessage);
 				sentMessages.append(openButton);
@@ -288,4 +359,124 @@ function sentMessageRefresher() {
 			$("#sent").append(sentMessages);
 		}
 	});
+}
+
+function usersRefresher(){
+	$.ajax({
+		type: "GET",
+		url: "users/",
+		success: function(data){
+			$("#users").empty();
+			var users = $("<ul></ul>");
+			data.forEach(function(user){
+				var userLi = "<li>Name: " + user.name + " Level: " + user.level + "</li>";
+				var openButton = $("<button>open</button>").attr("onclick", "openUser(" + user.id + ")");
+				var attackButton;
+				if(user.attackable){
+					attackButton = $("<button>attack</button>").attr("onclick", "attackUser(" + user.id + ")");
+				}else{
+					attackButton = $("<button disabled>attack</button>").attr("onclick", "");
+				}
+				var messageButton = $("<button>send message</button>").attr("onclick", "showMessageInputs(" + user.id + ")");
+				users.append(userLi);
+				users.append(openButton);
+				users.append(attackButton);
+				users.append(messageButton);
+			});
+			$("#users").append(users);
+		}
+	});
+}
+
+function openUser(userId){
+
+	$.ajax({
+		type: "GET",
+		url: "users/" + userId,
+		success: function(data){
+
+			if(data != ""){
+
+				$("#users").empty();
+
+				var userDiv = "<div>Username: " + data.name + " Level: " + data.level + " Successful attacks: " + data.successfulAttacks + " Unsuccessful attacks: " + data.unsuccessfulAttacks + "</div>";
+				var backButton = $("<button>back</button>").attr("onclick", "usersRefresher()");
+				var attackButton;
+				if(data.attackable){
+					attackButton = $("<button>attack</button>").attr("onclick", "attackUser(" + userId + ")");
+				}else{
+					attackButton = $("<button disabled>attack</button>").attr("onclick", "");
+				}
+				var messageButton = $("<button>send message</button>").attr("onclick", "showMessageInputs(" + userId + ")");
+
+				$("#users").append(backButton);
+				$("#users").append(userDiv);
+				$("#users").append(attackButton);
+				$("#users").append(messageButton);
+
+			}
+
+		}
+	});
+
+}
+
+function showMessageInputs(receiverId){
+
+	$("#users").empty();
+
+	var backButton = $("<button>back</button><br/>").attr("onclick", "usersRefresher()");
+
+	var subjectInput = "Subject: <input id=\"messageSubject\" type=\"text\" /><br/>";
+	var messageInput = "Message: <input id=\"messageMessage\" type=\"text\" /><br/>";
+	var sendButton = "<button onclick=\"sendMessage(" + receiverId + ")\">send message</button>";
+
+	$("#users").append(backButton);
+	$("#users").append(subjectInput);
+	$("#users").append(messageInput);
+	$("#users").append(sendButton);
+
+}
+
+function sendMessage(receiverId){
+
+	var subject = $("#messageSubject").val();
+	var message = $("#messageMessage").val();
+
+	var messageForm = {
+		receiverId: receiverId,
+		subject: subject,
+		message: message
+	};
+
+	$.ajax({
+		type: "POST",
+		url: "messages/send",
+		data: JSON.stringify(messageForm),
+		contentType: "application/json",
+		success: function(data){
+			usersRefresher();
+			messageRefresher();
+		}
+	});
+
+}
+
+function attackUser(userId){
+
+	$.ajax({
+		type: "POST",
+		url: "attack/start/" + userId,
+		success: function(data){
+			
+			if(data != ""){
+				profileRefresher();
+				statusRefresher();
+				jobsRefresher();
+				usersRefresher();
+			}
+
+		}
+	});
+
 }

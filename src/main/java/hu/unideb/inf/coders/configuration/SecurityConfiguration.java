@@ -39,8 +39,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/secure").access(HAS_ROLE_USER)
+				.antMatchers("/game").access(HAS_ROLE_USER)
 				.and().formLogin()
+				.defaultSuccessUrl("/game")
 				// TODO: create a custom login page later
 				// .loginPage("/login").defaultSuccessUrl("/")
 				.and().logout().logoutSuccessUrl("/")
